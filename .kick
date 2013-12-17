@@ -1,0 +1,5 @@
+recipe :ruby
+recipe :ignore
+
+ignore(%r{^(spec/fixtures)})
+ignore(%r{^(spec/spec_helper.rb)})
