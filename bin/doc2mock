@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+$:.unshift File.expand_path('../../lib', __FILE__)
+require 'doc2mock'
+require 'optparser'
+
+if RUBY_VERSION < '1.8.7'
+  abort "error: Doc2Mock requires Ruby 1.8.7 or higher."
+end
+
+OptionParser.new do |opts|
+  opts.banner = "usage: doc2mock [options]"
+  opts.on_tail('-h', '--help', 'Show this message') { puts opts; exit }
+  opts.on_tail("-v", "--version", "Show version") { puts XCPretty::VERSION; exit }
+  opts.parse!
+end
