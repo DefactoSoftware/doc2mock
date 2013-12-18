@@ -2,31 +2,34 @@ require 'json'
 
 module Doc2mock
   class Parser
-    def parse_doc(doc)
-      doc = JSON.parse(doc)
+    def initialize(raw_doc)
+      @doc = JSON.parse(raw_doc)
+    end
+
+    def annotated_mock
       %Q(
-// #{doc["description"]}
+// #{@doc["description"]}
 //
-// #{endpoint_description(doc)}
+// #{endpoint_description}
 
 {
-  "request": #{request(doc)},
-  "response": #{response(doc)}
+  "request": #{request},
+  "response": #{response}
 })
     end
 
     private
-    def endpoint_description(doc)
-      method, route = doc["http_method"], doc["route"]
+    def endpoint_description
+      method, route = @doc["http_method"], @doc["route"]
       [method, route].join(" ")
     end
 
-    def request(doc)
-      pretty_json(doc["requests"].first["request_body"])
+    def request
+      pretty_json(@doc["requests"].first["request_body"])
     end
 
-    def response(doc)
-      pretty_json(doc["requests"].first["response_body"])
+    def response
+      pretty_json(@doc["requests"].first["response_body"])
     end
 
     def pretty_json(json_string)
